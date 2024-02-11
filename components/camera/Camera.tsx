@@ -5,14 +5,15 @@ import BarcodeScannerBlock from "./BarcodeScannerBlock";
 
 interface CameraProps {
     cameraMode: CameraModeType;
+    show: boolean;
 }
 
-const Camera = ({cameraMode}: CameraProps) => {
+const Camera = ({cameraMode, show}: CameraProps) => {
     const render = useMemo( () => {
         return cameraMode === "CAMERA" ? <CameraBlock/> : <BarcodeScannerBlock/>
     }, [cameraMode])
     return (
-        <CameraProvider>
+        <CameraProvider showCamera={show}>
             {render}
         </CameraProvider>
     )

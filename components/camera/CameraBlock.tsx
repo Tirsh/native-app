@@ -1,14 +1,21 @@
 import React, {useContext} from 'react';
 import {StyleSheet, TouchableOpacity, View, Text} from "react-native";
 import {Camera} from "expo-camera";
+import Close from "../../assets/close.svg";
+import {CameraContext} from "./context/CameraContext";
 
 const CameraBlock = () => {
+    const {setShow} = useContext(CameraContext);
     let camera: Camera;
 
     const takePictureHandler = async () => {
         if (!camera) return
         const photo = await camera.takePictureAsync();
         console.log(photo);
+    }
+
+    const closeCameraHandler = () => {
+        setShow(false);
     }
 
     return (
@@ -21,13 +28,21 @@ const CameraBlock = () => {
             >
                 <View style={styles.cameraCanvas}>
                     <View style={styles.buttonCanvas}>
-                        <TouchableOpacity><Text>Назад</Text></TouchableOpacity>
                         <View style={styles.buttonWrapper}>
                             <TouchableOpacity
                                 onPress={takePictureHandler}
                                 style={styles.button}
                             />
                         </View>
+                    </View>
+                    <View style={styles.cameraClose}>
+                        <TouchableOpacity
+                            onPress={closeCameraHandler}
+                        >
+                            <View style={styles.closeBtn}>
+                                <Close/>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Camera>
@@ -37,6 +52,8 @@ const CameraBlock = () => {
 
 const styles = StyleSheet.create({
     cameraBlock: {
+        position: "absolute",
+        zIndex:3,
         flex: 1,
         width: '100%',
     },
@@ -54,7 +71,6 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         padding: 20,
-        justifyContent: 'space-between',
         alignItems: "center"
     },
     buttonWrapper: {
@@ -67,6 +83,18 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: 'transparent',
         flexDirection: 'row'
+    },
+    cameraClose: {
+        position: 'absolute',
+        top: 0,
+        flexDirection: 'row',
+        width: '100%',
+        padding: 25,
+        alignItems: "flex-start"
+    },
+    closeBtn: {
+        width: 30,
+        height: 30
     }
 });
 

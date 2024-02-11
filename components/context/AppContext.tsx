@@ -10,8 +10,8 @@ interface AppContextProps {
     setToken: (token: string | null) => void;
     url: string | null;
     setUrl: (url: string | null) => void;
-    webViewHidden: boolean;
-    setWebViewHidden: (hidden: boolean) => void;
+    showCamera: boolean;
+    setShowCamera: (camera: boolean) => void;
 }
 
 export const AppContext = createContext<AppContextProps | null>(null);

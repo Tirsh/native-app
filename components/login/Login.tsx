@@ -11,7 +11,7 @@ const Login = () => {
         setAppState("BARCODE_SCANNER");
     }
     return (
-        <View style={styles.startCamera}>
+        <View style={styles.container}>
             <ImageBackground source={image} resizeMode="cover" style={styles.image}>
                 <View style={styles.wrapper}>
                     <View style={styles.logoWrapper}>
@@ -33,8 +33,9 @@ const Login = () => {
 };
 
 const styles = StyleSheet.create({
-    startCamera: {
-        flex: 1,
+    container: {
+        width: "100%",
+        height: "100%",
         backgroundColor: '#fff',
 
     },

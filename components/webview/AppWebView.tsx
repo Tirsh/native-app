@@ -1,6 +1,6 @@
 import {WebView} from 'react-native-webview';
 import {StatusBar, StyleSheet} from "react-native";
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import useWebView from "./useWebView";
 
 interface AppWebViewProps {
@@ -9,19 +9,24 @@ interface AppWebViewProps {
 
 export const AppWebView: React.FC<AppWebViewProps> = ({source}) => {
     const webView = useRef<WebView | null>(null);
-    const {getMessage, isHidden} = useWebView(webView.current);
+    const {getMessage, isHidden, setWebView, cookies, setWebViewState} = useWebView();
     console.log("WebView render");
     isHidden ? console.log("wv hidden") : console.log("wv shown");
+    useEffect(() => {
+        if(webView){
+            setWebView(webView.current);
+        }
+    }, []);
 
     return (
         <WebView
             ref={webView}
             style={styles.container}
             onMessage={getMessage}
-            // injectedJavaScript={cookies}
+            injectedJavaScript={cookies}
             source={{uri: source}}
             sharedCookiesEnabled={true}
-            // onNavigationStateChange={(state) => setStateWebView(state)}
+            onNavigationStateChange={(state) => setWebViewState(state)}
         >
             <StatusBar hidden={true}/>
 

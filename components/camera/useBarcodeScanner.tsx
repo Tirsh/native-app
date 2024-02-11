@@ -1,10 +1,11 @@
 import {useCallback, useContext} from "react";
 import {BarCodeScanningResult} from "expo-camera";
-import {AppCameraContextProps} from "./context/CameraContext";
+import {AppCameraContextProps, CameraContext} from "./context/CameraContext";
 import {AppContext} from "../context/AppContext";
 
 const useBarcodeScanner = (context: AppCameraContextProps) => {
     const {setUrl, setToken, setAppState} = useContext(AppContext);
+    const {startCamera} = useContext(CameraContext);
 
     const handleAfterScanned = useCallback(
         (result: BarCodeScanningResult) => {

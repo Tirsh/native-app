@@ -5,6 +5,7 @@ import Login from "./components/login/Login";
 import Camera from "./components/camera/Camera";
 import {AppWebView} from "./components/webview/AppWebView";
 import Container from "./components/container/Container";
+import Loading from "./components/webview/Loading";
 
 export default function App() {
   return (
@@ -13,12 +14,3 @@ export default function App() {
       </AppProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

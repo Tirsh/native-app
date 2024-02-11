@@ -9,7 +9,7 @@ const AppProvider: FC = ({children}) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [token, setToken] = useState<string | null>(null);
     const [url, setUrl] = useState<string | null>(null);
-    const [webViewHidden, setWebViewHidden] = useState<boolean>(true);
+    const [showCamera, setShowCamera] = useState(false);
 
     useEffect(() => {
         const loadDataAsync = async () => {
@@ -36,10 +36,10 @@ const AppProvider: FC = ({children}) => {
             setToken,
             url,
             setUrl,
-            webViewHidden,
-            setWebViewHidden,
+            showCamera,
+            setShowCamera
         }
-    }, [appState])
+    }, [appState, url, token, showCamera])
     return (
         <AppContext.Provider value={contextValues}>
             {children}

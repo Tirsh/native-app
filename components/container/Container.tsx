@@ -4,37 +4,60 @@ import {AppContext} from "../context/AppContext";
 import Camera from "../camera/Camera";
 import Login from "../login/Login";
 import {AppWebView} from "../webview/AppWebView";
-import {View} from "react-native";
+import {StyleSheet, View} from "react-native";
+import Loading from "../webview/Loading";
 
 const Container = () => {
+    const context = useContext(AppContext);
+    const {appState, url, token, showCamera} = context;
 
-    const {appState, url} = useContext(AppContext);
-    const content = useMemo(() => {
+    const mainContent = useMemo( () => {
         switch (appState) {
             case "BARCODE_SCANNER": {
-                return (<Camera cameraMode={"SCANNER"}/>)
+                return (<Camera show={true} cameraMode={"SCANNER"}/>)
             }
             case "AUTHORIZATION": {
                 if (!url) {
                     return (<Login/>)
+                } else {
+                    return (
+                        <>
+                            <AppWebView source={url}/>
+                            <Loading/>
+                        </>
+                    )
                 }
-                return (<>
-                    <AppWebView source={url}/>
-                    <Login/>
-                    </>)
             }
             case "WEBVIEW": {
                 return (
-                    <>
                         <AppWebView source={url}/>
-                        <Camera cameraMode={"CAMERA"}/>
-                    </>
                 )
             }
         }
-    }, [appState]);
-    console.log(appState);
-    return content;
+    }, [appState, url, token]);
+
+    const additional = useMemo(() => {
+        if(appState === "WEBVIEW") {
+            if(showCamera){
+                return (
+                    <Camera cameraMode={"CAMERA"} show={true}/>
+                )
+            }
+        }
+    }, [appState, showCamera]);
+    console.log(mainContent);
+    console.log(context);
+    return (
+        <>
+            {mainContent}
+            {additional}
+        </>
+    )
 }
+
+const styles = StyleSheet.create({
+    container: {
+    },
+});
 
 export default Container;

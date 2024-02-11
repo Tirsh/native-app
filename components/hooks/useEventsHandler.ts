@@ -1,5 +1,5 @@
 import {WebView, WebViewMessageEvent} from "react-native-webview";
-import {useCallback, useContext} from "react";
+import {useCallback, useContext, useMemo} from "react";
 import useNativeEventsListener from "qw-rerp-native-events/dist/cjs/use-native-listener/useNativeEventsListener";
 import {
     BARCODE_SCANNER_INIT,
@@ -18,7 +18,7 @@ type useEventsHandlerType = {
 
 const useEventsHandler = (): useEventsHandlerType => {
     const appContext = useContext(AppContext);
-    const {setAppState, userToken, setUrl, storeData, qwUrl} = appContext;
+    const {setAppState, token, url, setUrl, setShowCamera} = appContext;
     const {webViewEmitter} = useNativeEventsListener();
 
     const getMessage = useCallback(
@@ -30,26 +30,30 @@ const useEventsHandler = (): useEventsHandlerType => {
     );
 
     const eventListener = useCallback((webView: WebView, resetTimer: number) => {
+        if(!token || ! url){
+            return;
+        }
 
         webViewEmitter.on(WEBVIEW_INIT as keyof EmitterEvents, e => {
             setAppState("WEBVIEW");
             clearInterval(resetTimer);
-            storeData().catch(console.log);
+            // storeData().catch(console.log);
         })
         webViewEmitter.on(BARCODE_SCANNER_INIT as keyof EmitterEvents, e => {
+            console.log("SCANNER")
             setAppState("BARCODE_SCANNER");
         })
         webViewEmitter.on(CAMERA_INIT as keyof EmitterEvents, e => {
-            setAppState("CAMERA");
+            setShowCamera(true);
         })
-    }, [userToken]);
+    }, [token, url]);
 
     const setResponseTimer = useCallback((timeOut: number) => {
         let timer: number = setTimeout(() => {
             setUrl(null);
         }, timeOut)
         return timer;
-    }, [qwUrl])
+    }, [url])
 
     return {getMessage, eventListener, setResponseTimer};
 }

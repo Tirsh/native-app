@@ -1,25 +1,33 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 
 const Loading = () => (
-    <View style={[styles.container, styles.horizontal]}>
-        <ActivityIndicator />
-        <ActivityIndicator size="large" />
-        <ActivityIndicator size="small" color="#0000ff" />
-        <ActivityIndicator size="large" color="#00ff00" />
+    <View style={[styles.container, styles.vertical]}>
+        <ActivityIndicator size={50} color="#800080" />
+        <Text style={styles.info}>Loading, please wait...</Text>
     </View>
 );
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        position: "absolute",
+        backgroundColor: "#ffffff",
+        width: '100%',
+        height: '100%',
         justifyContent: 'center',
     },
-    horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
+    vertical: {
+        justifyContent: 'center',
         padding: 10,
+        gap: 20,
     },
+    info: {
+        color: '#800080',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 20,
+
+    }
 });
 
 export default Loading;
